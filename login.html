@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login Authorization — MicroEscrow</title>
+  <meta name="description" content="MicroEscrow role-based login authorization portal for students and event organizers." />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: { 900: '#0F172A', 800: '#1E293B', 700: '#334155', 600: '#475569' },
+            emerald: { 500: '#10B981', 400: '#34D399', 300: '#6EE7B7' },
+            indigo: { 600: '#4F46E5', 500: '#6366F1', 400: '#818CF8', 300: '#A5B4FC' },
+            violet: { 500: '#8B5CF6', 400: '#A78BFA' }
+          },
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="frontend/css/style.css" />
+</head>
+<body class="bg-mesh min-h-screen text-gray-100 flex flex-col justify-between">
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed top-4 right-4 z-[100] flex flex-col gap-3 max-w-sm"></div>
+
+  <!-- Header Mini -->
+  <header class="border-b border-white/5 py-4 px-6 glass">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-emerald-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>
+        </div>
+        <div>
+          <h1 class="text-lg font-bold tracking-tight bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">MicroEscrow</h1>
+          <p class="text-[10px] text-gray-500 font-medium uppercase tracking-wider">Campus Escrow Gateway</p>
+        </div>
+      </a>
+      <a href="index.html" class="text-xs text-gray-400 hover:text-white transition flex items-center gap-1.5 font-semibold">
+        <span>Go to App</span>
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Login Card Container -->
+  <main class="flex-1 flex items-center justify-center py-8">
+    <div id="auth-view-container" class="w-full"></div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/5 py-4 text-center text-xs text-gray-500">
+    <p>© 2026 MicroEscrow · MySQL Database Authorization Gateway</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="frontend/js/api.js"></script>
+  <script src="frontend/js/auth.js"></script>
+  <script>
+    // Component loader for login.html
+    document.addEventListener('DOMContentLoaded', async () => {
+      initAuthSession();
+      // If already logged in, redirect to app
+      if (currentUser) {
+        window.location.href = 'index.html';
+        return;
+      }
+      const container = document.getElementById('auth-view-container');
+      const res = await fetch('frontend/components/auth-view.html');
+      if (res.ok) {
+        container.innerHTML = await res.text();
+      }
+    });
+
+    function showToast(msg, type = 'info') {
+      const container = document.getElementById('toast-container');
+      if (!container) return;
+      const colors = {
+        success: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400',
+        error:   'border-red-500/30 bg-red-500/10 text-red-400',
+        warning: 'border-amber-500/30 bg-amber-500/10 text-amber-400',
+        info:    'border-indigo-500/30 bg-indigo-500/10 text-indigo-400'
+      };
+      const icons = { success: '✓', error: '✕', warning: '⚠', info: 'ℹ' };
+      const toast = document.createElement('div');
+      toast.className = `toast glass rounded-xl px-4 py-3 border ${colors[type]} flex items-center gap-3 shadow-lg`;
+      toast.innerHTML = `<span class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${colors[type].replace('border-','bg-').split(' ')[0]}">${icons[type]}</span><span class="text-sm font-medium flex-1">${msg}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => { toast.classList.add('toast-exit'); setTimeout(() => toast.remove(), 300); }, 3500);
+    }
+
+    // Override applyRoleView to redirect to index.html on successful login
+    function applyRoleView() {
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MicroEscrow — UPI Micro-Pledge Platform for College Events</title>
+    <meta
+      name="description"
+      content="MicroEscrow is a UPI-first micro-pledge platform designed for college events and festivals. Secure escrow-backed crowdfunding for campus communities."
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              navy: {
+                900: "#0F172A",
+                800: "#1E293B",
+                700: "#334155",
+                600: "#475569",
+              },
+              emerald: { 500: "#10B981", 400: "#34D399", 300: "#6EE7B7" },
+              indigo: {
+                600: "#4F46E5",
+                500: "#6366F1",
+                400: "#818CF8",
+                300: "#A5B4FC",
+              },
+              violet: { 500: "#8B5CF6", 400: "#A78BFA" },
+            },
+            fontFamily: { sans: ["Inter", "system-ui", "sans-serif"] },
+          },
+        },
+      };
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="frontend/css/style.css" />
+  </head>
+  <body class="bg-mesh min-h-screen text-gray-100">
+    <div
+      id="toast-container"
+      class="fixed top-4 right-4 z-[100] flex flex-col gap-3 max-w-sm"
+    ></div>
+
+    <div id="app-header"></div>
+
+    <!-- Main Content View Containers -->
+    <main class="max-w-6xl mx-auto px-4 py-6">
+      <div id="auth-view-container"></div>
+      <div id="student-view-container"></div>
+      <div id="organizer-view-container"></div>
+    </main>
+
+    <!-- Modals Component Container -->
+    <div id="app-modals"></div>
+
+    <!-- Footer Component Container -->
+    <div id="app-footer"></div>
+
+    <!-- Modular Frontend Functional Scripts -->
+    <script src="frontend/js/api.js"></script>
+    <script src="frontend/js/campaign.js"></script>
+    <script src="frontend/js/pledge.js"></script>
+    <script src="frontend/js/vaultPass.js"></script>
+    <script src="frontend/js/organizer.js"></script>
+    <script src="frontend/js/auth.js"></script>
+    <script src="frontend/js/main.js"></script>
+  </body>
+</html>

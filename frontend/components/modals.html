@@ -1,0 +1,155 @@
+<!-- ====== MODALS COMPONENT ====== -->
+
+<!-- 1. UPI Payment Modal -->
+<div id="payment-modal" class="modal-overlay hidden fixed inset-0 z-[90] bg-black/60 flex items-center justify-center p-4">
+  <div class="modal-content glass rounded-2xl w-full max-w-md overflow-hidden">
+    <!-- Step 1: UPI Selection -->
+    <div id="modal-step-upi" class="p-6">
+      <div class="flex items-center justify-between mb-5">
+        <h3 class="text-lg font-bold">Select UPI App</h3>
+        <button onclick="closePaymentModal()" class="w-8 h-8 rounded-lg bg-navy-800/80 flex items-center justify-center text-gray-400 hover:text-white transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button>
+      </div>
+      <p class="text-xs text-gray-400 mb-4">Choose your preferred UPI payment method</p>
+      <div class="grid grid-cols-3 gap-3 mb-6">
+        <button onclick="selectUPI('gpay')" class="upi-icon flex flex-col items-center gap-2 p-4 rounded-xl bg-navy-800/60 border border-white/5 hover:border-indigo-500/30">
+          <div class="w-12 h-12 rounded-xl bg-white flex items-center justify-center shadow-md">
+            <svg viewBox="0 0 48 48" class="w-8 h-8"><path fill="#4285F4" d="M24 4L6 14v20l18 10 18-10V14z" opacity="0.15"/><path fill="#4285F4" d="M25.2 23.8l-3.4-2.2c-.3-.2-.5-.5-.5-.9v-5.4c0-.6.7-1 1.2-.6l8.2 5.3c.5.3.5 1 0 1.4l-4.8 3.1c-.2.1-.5.1-.7-.1z"/><path fill="#34A853" d="M18.5 30.5l3.4 2.2c.3.2.5.5.5.9v4c0 .6-.7 1-1.2.6l-6.8-4.4c-.5-.3-.5-1 0-1.4l3.4-2.2c.2-.1.5-.1.7.3z"/><path fill="#FBBC05" d="M13.8 22l-3.4 2.2c-.5.3-.5 1 0 1.4l3.4 2.2c.2.1.5.1.7-.1l3.4-2.2c.3-.2.5-.5.5-.9v-1.6c0-.4-.2-.7-.5-.9l-3.4-2.2c-.2-.2-.5-.2-.7.1z"/><path fill="#EA4335" d="M30.2 18.5l3.4-2.2c.5-.3.5-1 0-1.4l-6.8-4.4c-.5-.3-1.2.1-1.2.6v4c0 .4.2.7.5.9l3.4 2.2c.2.1.5.1.7.3z"/></svg>
+          </div>
+          <span class="text-xs font-semibold text-gray-300">GPay</span>
+        </button>
+        <button onclick="selectUPI('phonepe')" class="upi-icon flex flex-col items-center gap-2 p-4 rounded-xl bg-navy-800/60 border border-white/5 hover:border-indigo-500/30">
+          <div class="w-12 h-12 rounded-xl bg-[#5f259f] flex items-center justify-center shadow-md"><span class="text-white text-lg font-bold">Pe</span></div>
+          <span class="text-xs font-semibold text-gray-300">PhonePe</span>
+        </button>
+        <button onclick="selectUPI('paytm')" class="upi-icon flex flex-col items-center gap-2 p-4 rounded-xl bg-navy-800/60 border border-white/5 hover:border-indigo-500/30">
+          <div class="w-12 h-12 rounded-xl bg-[#00BAF2] flex items-center justify-center shadow-md"><span class="text-white text-sm font-extrabold tracking-tight">Pay</span></div>
+          <span class="text-xs font-semibold text-gray-300">Paytm</span>
+        </button>
+      </div>
+      <div class="flex items-center gap-2 p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/10">
+        <svg class="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>
+        <span class="text-xs text-emerald-400/80">Funds held in secure escrow until event confirmation</span>
+      </div>
+    </div>
+    <!-- Step 2: QR Code -->
+    <div id="modal-step-qr" class="hidden p-6 text-center">
+      <p class="text-sm text-gray-400 mb-3">Scan QR to pay via <span id="selected-upi-name" class="text-white font-semibold">GPay</span></p>
+      <div class="qr-shimmer inline-block p-4 bg-white rounded-2xl mb-4"><svg id="mock-qr" viewBox="0 0 200 200" class="w-44 h-44"></svg></div>
+      <p class="text-xs text-gray-500 mb-1">Amount: <span id="qr-amount" class="text-emerald-400 font-bold text-sm">₹299</span></p>
+      <div class="flex items-center justify-center gap-2 mt-3">
+        <div class="w-10 h-10 rounded-full border-2 border-indigo-500 flex items-center justify-center"><span id="qr-countdown" class="text-sm font-bold text-indigo-400">5</span></div>
+        <span class="text-xs text-gray-400">Processing payment…</span>
+      </div>
+    </div>
+    <!-- Step 3: Success -->
+    <div id="modal-step-success" class="hidden p-8 text-center">
+      <div class="w-20 h-20 mx-auto mb-4"><svg viewBox="0 0 52 52" class="w-full h-full"><circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" stroke="#10B981" stroke-width="2" /><path class="checkmark-check" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M14.1 27.2l7.1 7.2 16.7-16.8" /></svg></div>
+      <h3 class="text-xl font-extrabold text-emerald-400 mb-1">Pledge Secured! 🎉</h3>
+      <p class="text-sm text-gray-400 mb-2">Your funds are safely held in escrow</p>
+      <p class="text-xs text-gray-600 mb-5 font-mono" id="success-txn-id">TXN-XXXXXXXXXX</p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <button onclick="closePaymentModal(); openVaultPass();" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 to-violet-500 text-white font-bold text-sm hover:scale-[1.02] transition-all flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 010 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 010-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375z" /></svg>
+          View Vault Pass
+        </button>
+        <button onclick="closePaymentModal()" class="px-5 py-2.5 rounded-xl bg-emerald-500 text-white font-bold text-sm hover:bg-emerald-600 transition">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 2. Vault Pass Modal -->
+<div id="vault-modal" class="modal-overlay hidden fixed inset-0 z-[95] bg-black/70 flex items-center justify-center p-4">
+  <div class="modal-content w-full max-w-md">
+    <div class="vault-ticket rounded-2xl overflow-hidden border border-indigo-500/20 shadow-2xl shadow-indigo-500/10">
+      <div class="vault-ticket-inner p-6">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-emerald-500 flex items-center justify-center">
+              <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>
+            </div>
+            <div>
+              <p class="text-xs font-bold text-white">MicroEscrow</p>
+              <p class="text-[9px] text-gray-500 uppercase tracking-widest">Digital Vault Pass</p>
+            </div>
+          </div>
+          <button onclick="closeVaultModal()" class="w-7 h-7 rounded-lg bg-white/5 flex items-center justify-center text-gray-400 hover:text-white transition"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button>
+        </div>
+        <div class="text-center mb-4">
+          <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Vault Hash ID</p>
+          <p id="vault-hash" class="vault-hash text-2xl font-extrabold bg-gradient-to-r from-indigo-400 to-emerald-400 bg-clip-text text-transparent">#ESC-0000-0000</p>
+        </div>
+        <div class="grid grid-cols-2 gap-3 mb-4">
+          <div class="p-3 rounded-xl bg-white/5"><p class="text-[10px] text-gray-500 uppercase mb-0.5">Student</p><p id="vault-name" class="text-sm font-bold text-white">—</p></div>
+          <div class="p-3 rounded-xl bg-white/5"><p class="text-[10px] text-gray-500 uppercase mb-0.5">Roll No</p><p id="vault-roll" class="text-sm font-bold text-white font-mono">—</p></div>
+          <div class="p-3 rounded-xl bg-white/5"><p class="text-[10px] text-gray-500 uppercase mb-0.5">Tier</p><p id="vault-tier" class="text-sm font-bold text-white">—</p></div>
+          <div class="p-3 rounded-xl bg-white/5"><p class="text-[10px] text-gray-500 uppercase mb-0.5">Amount Locked</p><p id="vault-amount" class="text-sm font-extrabold text-emerald-400">—</p></div>
+        </div>
+        <div class="vault-dashed my-4"></div>
+        <div class="flex items-center gap-3 p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/15 mb-5">
+          <div class="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
+            <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>
+          </div>
+          <div>
+            <p class="text-xs font-bold text-emerald-400">Emergency Auto-Refund Guarantee</p>
+            <p class="text-[10px] text-gray-500">If event is cancelled, funds are instantly refunded to your UPI</p>
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-3">
+          <button onclick="shareWhatsApp()" class="flex-1 px-4 py-2.5 rounded-xl bg-[#25D366] text-white font-bold text-sm hover:bg-[#20bd5a] transition flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Share on WhatsApp
+          </button>
+          <button onclick="printVaultPass()" class="flex-1 px-4 py-2.5 rounded-xl bg-navy-700/60 border border-white/10 text-gray-200 font-bold text-sm hover:bg-navy-700/80 transition flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m0 0a48.159 48.159 0 018.5 0m0 0V4.5A2.25 2.25 0 0013.5 2.25h-3A2.25 2.25 0 008.25 4.5v3.284" /></svg>
+            Print Pass
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3. Create / Edit Campaign Modal -->
+<div id="create-campaign-modal" class="modal-overlay hidden fixed inset-0 z-[90] bg-black/60 flex items-center justify-center p-4">
+  <div class="modal-content glass rounded-2xl w-full max-w-lg overflow-hidden p-6">
+    <div class="flex items-center justify-between mb-5">
+      <h3 class="text-lg font-bold" id="campaign-modal-title">+ Create New Campaign</h3>
+      <button onclick="closeCampaignModal()" class="w-8 h-8 rounded-lg bg-navy-800/80 flex items-center justify-center text-gray-400 hover:text-white transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button>
+    </div>
+    <div class="space-y-4">
+      <div>
+        <label class="block text-xs text-gray-500 mb-1.5 font-medium">Event Title *</label>
+        <input id="cm-title" type="text" placeholder="e.g. Annual Cultural Night" class="w-full px-4 py-2.5 rounded-xl bg-navy-800/80 border border-white/5 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition" />
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs text-gray-500 mb-1.5 font-medium">Target Amount (₹) *</label>
+          <input id="cm-target" type="number" min="1000" placeholder="50000" class="w-full px-4 py-2.5 rounded-xl bg-navy-800/80 border border-white/5 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition" />
+        </div>
+        <div>
+          <label class="block text-xs text-gray-500 mb-1.5 font-medium">Category</label>
+          <select id="cm-category" class="w-full px-4 py-2.5 rounded-xl bg-navy-800/80 border border-white/5 text-sm text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition appearance-none">
+            <option value="Tech Fest">Tech Fest</option>
+            <option value="Cultural">Cultural</option>
+            <option value="Hackathon">Hackathon</option>
+            <option value="Sports">Sports</option>
+            <option value="Workshop">Workshop</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="block text-xs text-gray-500 mb-1.5 font-medium">Deadline (hours from now) *</label>
+        <input id="cm-deadline" type="number" min="1" placeholder="72" class="w-full px-4 py-2.5 rounded-xl bg-navy-800/80 border border-white/5 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition" />
+      </div>
+      <div>
+        <label class="block text-xs text-gray-500 mb-1.5 font-medium">Description</label>
+        <textarea id="cm-desc" rows="2" placeholder="Brief description of the event…" class="w-full px-4 py-2.5 rounded-xl bg-navy-800/80 border border-white/5 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition resize-none"></textarea>
+      </div>
+      <button id="cm-submit-btn" onclick="submitCampaignForm()" class="w-full px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-violet-500 text-white font-bold text-sm shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-[1.01] active:scale-[0.99] transition-all">
+        Create Campaign
+      </button>
+    </div>
+  </div>
+</div>

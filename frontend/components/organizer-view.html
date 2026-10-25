@@ -1,0 +1,104 @@
+<!-- ====== ORGANIZER VIEW COMPONENT ====== -->
+<section id="organizer-view" class="hidden">
+  <!-- Escrow Status Dashboard -->
+  <div class="glass rounded-2xl p-5 sm:p-6 mb-6 view-transition">
+    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+      <div>
+        <p class="text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1">Escrow Status</p>
+        <div class="flex items-center gap-3 flex-wrap">
+          <div id="org-status-pill" class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 status-pill-active">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span id="org-status-text">Funding in Progress</span>
+          </div>
+          <div id="risk-badge-org"></div>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="openEditCampaignModal()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-navy-700/60 border border-white/10 text-gray-300 hover:text-white hover:border-indigo-500/30 transition flex items-center gap-1.5" title="Edit Campaign">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" /></svg>
+          Edit
+        </button>
+        <button onclick="openCreateCampaignModal()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-500/15 border border-indigo-500/20 text-indigo-400 hover:bg-indigo-500/25 transition flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+          + New Campaign
+        </button>
+      </div>
+    </div>
+
+    <!-- Metrics Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+      <div class="metric-card relative overflow-hidden rounded-xl bg-navy-800/60 border border-white/5 p-4">
+        <p class="text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1">Total Pledges</p>
+        <p id="metric-total" class="text-2xl font-extrabold text-emerald-400">₹0</p>
+        <div class="absolute top-3 right-3 w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center"><svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
+      </div>
+      <div class="metric-card relative overflow-hidden rounded-xl bg-navy-800/60 border border-white/5 p-4">
+        <p class="text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1">Total Pledgers</p>
+        <p id="metric-count" class="text-2xl font-extrabold text-indigo-400">0</p>
+        <div class="absolute top-3 right-3 w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center"><svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" /></svg></div>
+      </div>
+      <div class="metric-card relative overflow-hidden rounded-xl bg-navy-800/60 border border-white/5 p-4">
+        <p class="text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1">Days Left</p>
+        <p id="metric-days" class="text-2xl font-extrabold text-violet-400">--</p>
+        <div class="absolute top-3 right-3 w-8 h-8 rounded-lg bg-violet-500/10 flex items-center justify-center"><svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
+      </div>
+    </div>
+
+    <!-- Simulation Controls -->
+    <div id="sim-controls" class="flex flex-wrap gap-3">
+      <button onclick="simulateGoalMet()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-bold text-sm shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        Release Escrow Funds
+      </button>
+      <button onclick="simulateCancelled()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-red-500 to-rose-600 text-white font-bold text-sm shadow-lg shadow-red-500/20 hover:shadow-red-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>
+        Trigger Refunds
+      </button>
+      <button onclick="resetDemo()" class="px-5 py-2.5 rounded-xl border border-white/10 text-gray-300 font-bold text-sm hover:bg-white/5 transition-all flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182" /></svg>
+        Reset Demo
+      </button>
+    </div>
+
+    <!-- Payout Receipt -->
+    <div id="payout-receipt" class="hidden mt-6 rounded-xl bg-emerald-500/5 border border-emerald-500/20 p-5">
+      <div class="flex items-center gap-2 mb-3">
+        <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" /></svg>
+        <h4 class="text-sm font-bold text-emerald-400">Mock Payout Receipt</h4>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+        <div><span class="text-gray-500 block">Txn ID</span><span class="text-gray-200 font-mono" id="receipt-txn">--</span></div>
+        <div><span class="text-gray-500 block">Amount</span><span class="text-emerald-400 font-bold" id="receipt-amount">--</span></div>
+        <div><span class="text-gray-500 block">Disbursed To</span><span class="text-gray-200">Event Vendor Account</span></div>
+        <div><span class="text-gray-500 block">Timestamp</span><span class="text-gray-200" id="receipt-time">--</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pledger Roster Table -->
+  <div class="glass rounded-2xl p-5 sm:p-6 view-transition">
+    <div class="flex items-center justify-between mb-5">
+      <h3 class="text-lg font-bold flex items-center gap-2">
+        <span class="w-8 h-8 rounded-lg bg-indigo-500/15 flex items-center justify-center"><svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg></span>
+        Pledger Roster
+      </h3>
+      <span id="roster-count" class="text-xs font-semibold text-gray-400 px-3 py-1 rounded-full bg-navy-800/60 border border-white/5">0 records</span>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="text-xs text-gray-500 uppercase tracking-wider border-b border-white/5">
+            <th class="py-3 px-3 text-left font-semibold">#</th>
+            <th class="py-3 px-3 text-left font-semibold">Student Name</th>
+            <th class="py-3 px-3 text-left font-semibold">Roll No</th>
+            <th class="py-3 px-3 text-left font-semibold">Tier</th>
+            <th class="py-3 px-3 text-right font-semibold">Amount</th>
+            <th class="py-3 px-3 text-center font-semibold">Status</th>
+          </tr>
+        </thead>
+        <tbody id="roster-body" class="divide-y divide-white/5"></tbody>
+      </table>
+      <p id="empty-roster" class="hidden text-center text-gray-600 py-8 text-sm">No pledges yet</p>
+    </div>
+  </div>
+</section>

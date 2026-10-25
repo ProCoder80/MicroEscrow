@@ -1,0 +1,55 @@
+<!-- ====== HEADER COMPONENT ====== -->
+<header class="sticky top-0 z-50 glass border-b border-white/5">
+  <div class="max-w-6xl mx-auto px-4 py-3">
+    <div class="flex items-center justify-between gap-3">
+      <!-- Logo -->
+      <div class="flex items-center gap-3 flex-shrink-0 cursor-pointer" onclick="navigateHome()">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-emerald-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>
+        </div>
+        <div class="hidden sm:block">
+          <h1 class="text-lg font-bold tracking-tight bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">MicroEscrow</h1>
+          <p class="text-[10px] text-gray-500 font-medium tracking-wider uppercase">UPI Micro-Pledge Platform</p>
+        </div>
+      </div>
+
+      <!-- Campaign Selector (Visible when logged in) -->
+      <div class="campaign-dropdown flex-1 max-w-xs mx-2" id="campaign-dropdown">
+        <button onclick="toggleCampaignDropdown()" class="w-full flex items-center justify-between gap-2 px-3 py-2 rounded-xl bg-navy-800/80 border border-white/5 hover:border-indigo-500/30 transition text-left">
+          <div class="flex items-center gap-2 min-w-0">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0"></span>
+            <span id="selected-campaign-name" class="text-xs font-semibold text-gray-200 truncate">Loading…</span>
+          </div>
+          <svg class="w-3.5 h-3.5 text-gray-500 flex-shrink-0 transition-transform" id="dropdown-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
+        </button>
+        <div class="campaign-dropdown-menu glass rounded-xl overflow-hidden shadow-2xl border border-white/10" id="campaign-menu"></div>
+      </div>
+
+      <!-- Active Pledges Metric Badge -->
+      <div id="active-pledges-badge" class="badge-float hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex-shrink-0">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="text-xs font-semibold text-emerald-400"><span id="badge-count">0</span> Active Pledges</span>
+      </div>
+
+      <!-- Authenticated User Profile & Logout / Auth Button -->
+      <div id="header-auth-section" class="flex items-center gap-2 flex-shrink-0">
+        <!-- Logged In State (Populated dynamically) -->
+        <div id="user-badge" class="hidden flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-navy-800/80 border border-white/10">
+          <div id="user-role-avatar" class="w-7 h-7 rounded-lg bg-indigo-500/20 text-indigo-300 flex items-center justify-center text-sm font-bold">🎓</div>
+          <div class="text-left hidden sm:block">
+            <p id="user-display-name" class="text-xs font-bold text-white leading-tight">Student</p>
+            <p id="user-display-meta" class="text-[10px] text-gray-400 font-mono">2026CS101</p>
+          </div>
+          <button onclick="handleLogout()" title="Log out" class="ml-1 p-1.5 rounded-lg text-gray-400 hover:text-red-400 hover:bg-red-500/10 transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" /></svg>
+          </button>
+        </div>
+
+        <!-- Logged Out State -->
+        <button id="btn-login-nav" onclick="showAuthView()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-500 to-emerald-500 text-white font-bold text-xs shadow-lg shadow-indigo-500/20 hover:scale-[1.02] active:scale-[0.98] transition">
+          Sign In
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
