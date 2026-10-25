@@ -20,6 +20,22 @@ MicroEscrow is an escrow-backed crowdfunding platform designed for Indian colleg
 
 ---
 
+## 📸 Screenshots
+
+<p align="center">
+  <img src="screenshots/dashboard.jpg" alt="MicroEscrow Dashboard — Campaign cards with escrow progress" width="800" />
+  <br />
+  <em>Student Dashboard — Live campaign cards with escrow progress bars, backer counts & countdown timers</em>
+</p>
+
+<p align="center">
+  <img src="screenshots/login.jpg" alt="MicroEscrow Login — Role-based authentication" width="800" />
+  <br />
+  <em>Login Portal — Role-based authentication for Students & Organizers</em>
+</p>
+
+---
+
 ## 🏗️ Tech Stack
 
 - **Backend:** Node.js, Express 5
@@ -203,7 +219,7 @@ Student pledges ₹799               Organizer reviews
 
 ## 📜 License
 
-This project is licensed under the [ISC License](https://opensource.org/licenses/ISC).
+This project is licensed under the [ISC License](LICENSE).
 
 ---
 
